@@ -1,0 +1,1182 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "The new Uber API",
+    "version": "1.0.0",
+    "title": "API Demo"
+  },
+  "host": "qiita.com",
+  "basePath": "/api/v2",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+
+
+    "/users/{USER}": {
+      "get":{
+        "tags": [
+          "product"
+        ],
+
+        "parameters":[
+        {
+          "name":"USER",
+          "in":"path",
+          "type":"string"
+        }
+        ],
+        "responses":{
+          "200":{
+            "description":"ok"
+          }
+        }
+      }
+    },
+
+
+
+
+
+
+    "/dashboard/{MSISDN}": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Get dashboard",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "MSISDN",
+            "in": "path",
+            "description": "MSISDN",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/DashboardResponse"
+            }
+          }
+        }
+      }
+    },
+    "/device/status": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Get device status",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "EncryptedMSISDN",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    },
+    "/device/{MSISDN}/plan/cancel": {
+      "post": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Cancel a plan",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "MSISDN",
+            "in": "path",
+            "description": "MSISDN",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ok, plan and subscription are canceled (no return)"
+          }
+        }
+      }
+    },
+    "/device/{MSISDN}/plan/history": {
+      "post": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Cancel plan",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "MSISDN",
+            "in": "path",
+            "description": "MSISDN",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok, returns plan histories",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PlanHistory"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/{MSISDN}/plan/restore": {
+      "post": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Restore a plan",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "MSISDN",
+            "in": "path",
+            "description": "MSISDN",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ok, plan is restored (no return)"
+          }
+        }
+      }
+    },
+    "/device/{MSISDN}/plan/suspend": {
+      "post": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Suspend a plan",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "MSISDN",
+            "in": "path",
+            "description": "MSISDN",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "ok, plan is suspended (no return)"
+          }
+        }
+      }
+    },
+    "/device/{MSISDN}/sharedPlan": {
+      "post": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Add to shared plan",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "MSISDN",
+            "in": "path",
+            "description": "MSISDN",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "BAN, billingMarket, billingSubMarket, termsAndConditions, datagroupId, offeringCode",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SharedPlanBody"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "MSISDN not updated"
+          }
+        }
+      }
+    },
+    "/device/{MSISDN}/trialPlan": {
+      "post": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Activate trial plan",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "MSISDN",
+            "in": "path",
+            "description": "MSISDN",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "see rfc 2616",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "subscriber and terms and conditions",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TrialPlanBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "new MSISDN is returned",
+            "schema": {
+              "$ref": "#/definitions/UpdatedMSISDNResponse"
+            }
+          },
+          "204": {
+            "description": "MSISDN not updated"
+          }
+        }
+      }
+    },
+    "/device/{MSISDN}/validate": {
+      "get": {
+        "tags": [
+          "device"
+        ],
+        "summary": "Validate device",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "MSISDN",
+            "in": "path",
+            "description": "MSISDN",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/DeviceStatusResponse"
+            }
+          }
+        }
+      }
+    },
+    "/product/catalog": {
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Product catalog",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "MSISDN and userCountry",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CatalogBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/CatalogResponse"
+            }
+          }
+        }
+      }
+    },
+    "/product/quote": {
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "Product quote",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "MSISDN and userCountry",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/QuoteBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/QuoteResponse"
+            }
+          }
+        }
+      }
+    },
+    "/subscriber/{MSISDN}": {
+      "put": {
+        "tags": [
+          "subscriber"
+        ],
+        "summary": "Update subscriber",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "MSISDN",
+            "in": "path",
+            "description": "MSISDN",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "subscriber",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Subscriber"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "new MSISDN is returned",
+            "schema": {
+              "$ref": "#/definitions/UpdatedMSISDNResponse"
+            }
+          },
+          "204": {
+            "description": "MSISDN not updated"
+          }
+        }
+      }
+    },
+    "/subscription": {
+      "post": {
+        "tags": [
+          "subscriber"
+        ],
+        "summary": "Create subscription",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "ICCID, MSISDN, and nickname",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SubscriptionBody"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "subscription is created"
+          }
+        }
+      }
+    },
+    "/termsAndConditions": {
+      "get": {
+        "tags": [
+          "common"
+        ],
+        "summary": "Get terms and conditions",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "description": "see rfc 2616",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "userCountry",
+            "in": "query",
+            "description": "ISO 3166-1 e.g. US",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok, returns terms and conditions and a JWT",
+            "schema": {
+              "$ref": "#/definitions/TermsAndConditionsResponse"
+            }
+          }
+        }
+      }
+    },
+    "/validateAddress": {
+      "put": {
+        "tags": [
+          "common"
+        ],
+        "summary": "Validate an address",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "an address element",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Address"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok, returns list of matched addresses (if list size is 1 then perfect match)",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Address"
+              }
+            }
+          },
+          "422": {
+            "description": "address is in northern territories of Canada"
+          }
+        }
+      }
+    },
+    "/validateMobileAccount": {
+      "put": {
+        "tags": [
+          "common"
+        ],
+        "summary": "Validate a mobile account",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "MSISDN, SSN, billing account password, billing zip code",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ValidateMobileAccountBody"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ok",
+            "schema": {
+              "$ref": "#/definitions/ValidateMobileAccountResponse"
+            }
+          },
+          "401": {
+            "description": "user must create passcode"
+          },
+          "422": {
+            "description": "authentication failed for MobileAccount"
+          }
+        }
+      }
+    },
+    "/vehicle/list": {
+      "get": {
+        "tags": [
+          "vehicle"
+        ],
+        "summary": "Get vehicle list",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "ok, returns list of vehicles for user",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Vehicle"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vehicle/{MSISDN}": {
+      "put": {
+        "tags": [
+          "vehicle"
+        ],
+        "summary": "Update vehicle",
+        "description": "",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "parameters": [
+          {
+            "name": "MSISDN",
+            "in": "path",
+            "description": "MSISDN",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "car nickname",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateVehicleBody"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "vehicle is updated (no return)"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Address": {
+      "required": [
+        "addressLine1",
+        "city",
+        "country",
+        "state",
+        "zipcode"
+      ],
+      "properties": {
+        "addressLine1": {
+          "type": "string"
+        },
+        "addressLine2": {
+          "type": "string",
+          "description": "Optional address line"
+        },
+        "zipcode": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      }
+    },
+    "Subscriber": {
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "languagePreference": {
+          "type": "string",
+          "description": "default is en"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/Address"
+        }
+      }
+    },
+    "Vehicle": {
+      "properties": {
+        "nickname": {
+          "type": "string"
+        },
+        "MSISDN": {
+          "type": "string"
+        }
+      }
+    },
+    "TrialStatus": {
+      "properties": {
+        "trialStatus": {
+          "type": "string",
+          "description": "ex. active, available, unavailable"
+        }
+      }
+    },
+    "PlanStatus": {
+      "properties": {
+        "planStatus": {
+          "type": "string"
+        }
+      }
+    },
+    "PlanType": {
+      "properties": {
+        "planType": {
+          "type": "string"
+        }
+      }
+    },
+    "Plan": {
+      "properties": {
+        "SOC": {
+          "$ref": "#/definitions/SOC"
+        },
+        "planType": {
+          "$ref": "#/definitions/PlanType"
+        },
+        "status": {
+          "$ref": "#/definitions/PlanStatus"
+        },
+        "expirationDate": {
+          "type": "string",
+          "description": "DD/MM/YYYY"
+        },
+        "eventsThrough": {
+          "type": "string",
+          "description": "actual enddate of plan if data is used up before expirationDate (DD/MM/YYYY)"
+        },
+        "dataUsage": {
+          "$ref": "#/definitions/DataUsage"
+        }
+      }
+    },
+    "DataUsage": {
+      "properties": {
+        "unitOfMeasure": {
+          "type": "string",
+          "description": "ex. GB, MB ..."
+        },
+        "allottedUnits": {
+          "type": "string",
+          "description": "units allotted to plan"
+        },
+        "usedUnits": {
+          "type": "string",
+          "description": "used units in plan"
+        }
+      }
+    },
+    "PlanHistory": {
+      "properties": {
+        "offeringCode": {
+          "type": "string"
+        },
+        "socOrderId": {
+          "type": "string"
+        },
+        "sessionStatus": {
+          "type": "string"
+        },
+        "sessionStatusReasonDescription": {
+          "type": "string"
+        },
+        "effectiveDate": {
+          "type": "string"
+        },
+        "expirationDate": {
+          "type": "string"
+        },
+        "autoRenewType": {
+          "type": "string"
+        },
+        "autoRenewIndicator": {
+          "type": "string"
+        },
+        "remainingAllowance": {
+          "type": "string"
+        },
+        "oneTimeCharge": {
+          "$ref": "#/definitions/Amount"
+        },
+        "taxAmount": {
+          "$ref": "#/definitions/Amount"
+        },
+        "paymentMethod": {
+          "type": "string"
+        },
+        "paymentReferenceNumber": {
+          "type": "string"
+        },
+        "last4CreditCardNumber": {
+          "type": "string"
+        },
+        "paymentSource": {
+          "type": "string"
+        },
+        "chargebackSessionId": {
+          "type": "string"
+        }
+      }
+    },
+    "Amount": {
+      "properties": {
+        "amount": {
+          "type": "string"
+        },
+        "monetaryUnit": {
+          "type": "string"
+        }
+      }
+    },
+    "SOC": {
+      "properties": {
+        "offeringCode": {
+          "type": "string"
+        },
+        "offeringDescription": {
+          "type": "string"
+        }
+      }
+    },
+    "TermsAndConditions": {
+      "properties": {
+        "documentProductCode": {
+          "type": "string"
+        },
+        "documentVersionNumber": {
+          "type": "string"
+        },
+        "documentType": {
+          "type": "string"
+        },
+        "documentScope": {
+          "type": "string"
+        },
+        "softwareVersionNumber": {
+          "type": "string"
+        },
+        "documentText": {
+          "type": "string"
+        }
+      }
+    },
+    "TermsAndConditionsResponse": {
+      "properties": {
+        "termsAndConditions": {
+          "$ref": "#/definitions/TermsAndConditions"
+        },
+        "token": {
+          "type": "string",
+          "description": "a JWT (add authorization fields)"
+        }
+      }
+    },
+    "ValidateMobileAccountBody": {
+      "properties": {
+        "MSISDN": {
+          "type": "string",
+          "description": "personal phone number of mobile account"
+        },
+        "SSN": {
+          "type": "string",
+          "description": "4 last digits in SSN"
+        },
+        "billingZipCode": {
+          "type": "string",
+          "description": "zip code"
+        },
+        "bilingAccountPassword": {
+          "type": "string",
+          "description": "password"
+        }
+      }
+    },
+    "ValidateMobileAccountResponse": {
+      "properties": {
+        "BAN": {
+          "type": "string",
+          "description": "billing account number of validated mobileAccount"
+        },
+        "billingMarket": {
+          "type": "string",
+          "description": "BillingMarket of BAN"
+        },
+        "billingSubMarket": {
+          "type": "string",
+          "description": "BillingSubMarket of BAN"
+        },
+        "datagroups": {
+          "type": "array",
+          "description": "list of datagroups (as int converted to string)",
+          "items": {
+            "type": "string"
+          }
+        },
+        "token": {
+          "type": "string",
+          "description": "a JWT (with BAN and available datagroupIds added on top of the token)"
+        }
+      }
+    },
+    "UpdateVehicleBody": {
+      "properties": {
+        "nickname": {
+          "type": "string",
+          "description": "nickname of the car"
+        }
+      }
+    },
+    "DeviceStatusResponse": {
+      "properties": {
+        "ICCID": {
+          "type": "string",
+          "description": "ICCID"
+        },
+        "MSISDN": {
+          "type": "string",
+          "description": "MSISDN"
+        },
+        "trialStatus": {
+          "description": "trialStatus enum",
+          "$ref": "#/definitions/TrialStatus"
+        },
+        "planStatus": {
+          "type": "string",
+          "description": "planStatus enum"
+        },
+        "sharedPlanStatus": {
+          "type": "string",
+          "description": "planStatus enum"
+        },
+        "canRegister": {
+          "type": "boolean",
+          "description": "indicates whether vehicle can be registered"
+        },
+        "carCountry": {
+          "type": "string",
+          "description": "country of car"
+        },
+        "token": {
+          "type": "string",
+          "description": "a JWT (encoded authorization fields include MSISDN, canRegister)"
+        }
+      }
+    },
+    "SharedPlanBody": {
+      "properties": {
+        "BAN": {
+          "type": "string",
+          "description": "billing account number"
+        },
+        "billingMarket": {
+          "type": "string",
+          "description": "billing market of BAN"
+        },
+        "billingSubMarket": {
+          "type": "string",
+          "description": "billing sub market of BAN"
+        },
+        "termsAndConditions": {
+          "$ref": "#/definitions/TermsAndConditions"
+        },
+        "datagroupId": {
+          "type": "string"
+        },
+        "offeringCode": {
+          "type": "string"
+        }
+      }
+    },
+    "TrialPlanBody": {
+      "properties": {
+        "subscriber": {
+          "$ref": "#/definitions/Subscriber"
+        },
+        "termsAndConditions": {
+          "$ref": "#/definitions/TermsAndConditions"
+        }
+      }
+    },
+    "UpdatedMSISDNResponse": {
+      "properties": {
+        "MSISDN": {
+          "type": "string",
+          "description": "new MSISDN"
+        },
+        "token": {
+          "type": "string",
+          "description": "JWT with new MSISDN"
+        }
+      }
+    },
+    "SubscriptionBody": {
+      "properties": {
+        "ICCID": {
+          "type": "string"
+        },
+        "MSISDN": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string",
+          "description": "car nickname"
+        }
+      }
+    },
+    "DashboardResponse": {
+      "properties": {
+        "vehicle": {
+          "$ref": "#/definitions/Vehicle"
+        },
+        "plan": {
+          "$ref": "#/definitions/Plan"
+        },
+        "Subscriber": {
+          "$ref": "#/definitions/Subscriber"
+        }
+      }
+    },
+    "CatalogBody": {
+      "properties": {
+        "MSISDN": {
+          "type": "string"
+        },
+        "userCountry": {
+          "type": "string",
+          "description": "country ISO 3166-1 (e.g. US/CA)"
+        }
+      }
+    },
+    "CatalogResponse": {
+      "properties": {
+        "SOCs": {
+          "type": "array",
+          "description": "list of available prepaid plans",
+          "items": {
+            "$ref": "#/definitions/SOC"
+          }
+        },
+        "token": {
+          "type": "string",
+          "description": "JWT with available offeringCodeIds"
+        }
+      }
+    },
+    "QuoteBody": {
+      "properties": {
+        "MSISDN": {
+          "type": "string"
+        },
+        "offeringCode": {
+          "type": "string",
+          "description": "SOC"
+        }
+      }
+    },
+    "QuoteResponse": {
+      "required": [
+        "token",
+        "totalAmount"
+      ],
+      "properties": {
+        "totalAmount": {
+          "description": "total amount for SOC",
+          "$ref": "#/definitions/Amount"
+        },
+        "baseAmount": {
+          "description": "amount for prepaid plan excluding taxes",
+          "$ref": "#/definitions/Amount"
+        },
+        "recurringAmount": {
+          "description": "amount for postpaid plan excluding taxes",
+          "$ref": "#/definitions/Amount"
+        },
+        "totalTaxAmount": {
+          "description": "tax amount",
+          "$ref": "#/definitions/Amount"
+        },
+        "token": {
+          "type": "string",
+          "description": "JWT with totalAmount"
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
